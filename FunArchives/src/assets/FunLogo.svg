@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="209" viewBox="0 0 210 209">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #000;
+        stroke-width: 3px;
+      }
+
+      .cls-2, .cls-5 {
+        fill: none;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Group_30" data-name="Group 30" transform="translate(-536 -314)">
+    <g id="Lines">
+      <g id="Ellipse_9" data-name="Ellipse 9" class="cls-1" transform="translate(548 326)">
+        <circle class="cls-4" cx="92.5" cy="92.5" r="92.5"/>
+        <circle class="cls-5" cx="92.5" cy="92.5" r="91"/>
+      </g>
+      <line id="Line_22" data-name="Line 22" class="cls-2" y2="184" transform="translate(640.5 326.5)"/>
+      <line id="Line_23" data-name="Line 23" class="cls-2" y2="184" transform="translate(675.707 333.503) rotate(22.5)"/>
+      <line id="Line_24" data-name="Line 24" class="cls-2" y2="184" transform="translate(705.554 353.446) rotate(45)"/>
+      <line id="Line_25" data-name="Line 25" class="cls-2" y2="184" transform="translate(725.497 383.293) rotate(67.5)"/>
+      <line id="Line_26" data-name="Line 26" class="cls-2" y2="184" transform="translate(732.5 418.5) rotate(90)"/>
+      <line id="Line_27" data-name="Line 27" class="cls-2" y2="184" transform="translate(725.497 453.707) rotate(112.5)"/>
+      <line id="Line_28" data-name="Line 28" class="cls-2" y2="184" transform="translate(705.554 483.554) rotate(135)"/>
+      <line id="Line_29" data-name="Line 29" class="cls-2" y2="184" transform="translate(675.707 503.497) rotate(157.5)"/>
+    </g>
+    <g id="Cars">
+      <g id="Ellipse_10" data-name="Ellipse 10" class="cls-3" transform="translate(629 314)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_16" data-name="Ellipse 16" class="cls-3" transform="translate(670.452 317.877) rotate(21)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_17" data-name="Ellipse 17" class="cls-3" transform="translate(594.452 496.877) rotate(21)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_20" data-name="Ellipse 20" class="cls-3" transform="translate(691.924 510.881) rotate(159)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_21" data-name="Ellipse 21" class="cls-3" transform="translate(615.924 331.881) rotate(159)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_11" data-name="Ellipse 11" class="cls-3" transform="translate(629 508)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_12" data-name="Ellipse 12" class="cls-3" transform="translate(746 407) rotate(90)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_14" data-name="Ellipse 14" class="cls-3" transform="translate(734.114 367.128) rotate(70)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_18" data-name="Ellipse 18" class="cls-3" transform="translate(561.981 372.259) rotate(110)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_19" data-name="Ellipse 19" class="cls-3" transform="translate(741.981 448.259) rotate(110)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_15" data-name="Ellipse 15" class="cls-3" transform="translate(554.114 443.128) rotate(70)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_13" data-name="Ellipse 13" class="cls-3" transform="translate(551 407) rotate(90)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_22" data-name="Ellipse 22" class="cls-3" transform="translate(583.935 345.672) rotate(135)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_23" data-name="Ellipse 23" class="cls-3" transform="translate(723.935 485.672) rotate(135)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_24" data-name="Ellipse 24" class="cls-3" transform="translate(713.329 361.935) rotate(-135)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+      <g id="Ellipse_25" data-name="Ellipse 25" class="cls-3" transform="translate(573.329 501.935) rotate(-135)">
+        <ellipse class="cls-4" cx="11.5" cy="7.5" rx="11.5" ry="7.5"/>
+        <ellipse class="cls-5" cx="11.5" cy="7.5" rx="10" ry="6"/>
+      </g>
+    </g>
+  </g>
+</svg>

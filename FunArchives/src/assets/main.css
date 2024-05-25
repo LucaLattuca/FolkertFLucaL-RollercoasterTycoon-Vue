@@ -1,0 +1,43 @@
+/* @import './base.css'; */
+
+#app {
+  font-weight: normal;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+}
+
+a,
+.green {
+}
+
+@media (min-width: 1024px) {
+
+  body {
+    background-color: whitesmoke;  
+    /* border: 2px solid black; */
+  }
+  header{
+    border: 2px solid green;
+  }
+  main{
+    /* border: 2px solid red; */
+  }
+  footer {
+    /* border: 2px solid blue; */
+  }
+
+  #app {
+    
+  }
+}
