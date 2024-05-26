@@ -31,27 +31,16 @@ export default {
         styleCategory(category){
             switch (category){
                 case 'Horror':
-                    console.log(category);
+                    // console.log(category);
                     return 'horror';
                 case 'Kids':
-                    console.log(category);
+                    // console.log(category);
                     return 'kids';
                 default:
                     return 'default';
                     }
-
+            
         }
-    }, filters: {
-        capitalize: function (data) { 
-        var capitalized = [] 
-        data.split(' ').forEach(word => { 
-          capitalized.push( 
-            word.charAt(0).toUpperCase() + 
-            word.slice(1).toLowerCase() 
-          ) 
-        }) 
-        return capitalized.join(' ') 
-      } 
     }
 };  
 </script>
@@ -64,8 +53,9 @@ export default {
                     <img v-if="ride.rideImg" :src="ride.rideImg" >
                 </div>
                 <div class="moreInfo">
-                    <div class="tags"><li v-for="category in ride.categories" :key="category" :class="styleCategory(category.categoryName)">{{ category.categoryName |capitalize}}</li></div>
+                    <div class="tags"><li v-for="category in ride.categories" :key="category.categoryName" :class="styleCategory(category.categoryName)">{{ category.categoryName }}</li></div>
                     
+
                     <p class="description" v-if="ride.description">{{ride.description}}</p>
                     <p class="description" v-else>no ride description available</p>
 

@@ -1,20 +1,51 @@
 <script>
-    export default {
-        ride: {
-            rideName: '',
-            rideImg: '',
-            rideVideo: '',
-            requiredHeight: 0,
-            ridePrice: 0,
-            rideSpeed: 0,
-            categories: [],
-            rideCapacity: 0,
-            rideDuration: '',
-            rideBuildyear: 0,
-            rideStatus: true
+import Navigation from './Navigation.vue';
+import axios from 'axios';
 
+    export default {
+        components : {
+        Navigation,
+    },
+    data(){
+        return {
+            allCategories: [{
+                categoryId: 0,
+                categoryName: 'All Categories'
+            }],
+            categoryInput: {},
+            showPopup : true
+        }
+    },
+    created () {
+        this.getCategories();
+    },
+    methods: {
+        capitalize(s){
+            // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+            return s && s[0].toUpperCase() + s.slice(1);
         },
-        methods: {
+        openPopup(){
+            this.showPopup = true;
+        },
+        addCategory() {
+                this.showPopup = false;
+            },
+            postCategory(){
+                // fetch('https://localhost:9000/attractions' ,{
+                //     method: "Post",
+                //     headers:{
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify({
+                      
+                //     }) 
+                // }).then(function (response) {
+                //     console.log(response);
+                //     if(!response.error){
+                //         self.$emit('rideSubmitted')
+                //     }
+                // })
+            },
             addRide(){
                 const self = this;
                 fetch('https://localhost:9000/attractions' ,{
@@ -43,12 +74,67 @@
                         self.$emit('rideSubmitted')
                     }
                 })
-            }
+            },
+            
+            async getCategories(){
+                try {
+
+                    const response = await axios.get('http://localhost:9000/categories');
+                    this.allCategories = response.data;
+                    // console.log(JSON.stringify(this.allCategories, null, 2));
+                    this.allCategories.forEach(category => {
+                        console.log(this.allCategories);
+                        console.log(category.id);
+                        console.log(category.categoryName);
+                        console.log('---------------------------');
+
+                    })
+                    this.allCategories = response.data.map(category => ({
+                        categoryId: category.id,
+                        categoryName: category.categoryName
+                    }))
+                }catch(error){
+                    this.error = "categories failed to fetch";
+                    console.log(error);
+                }
+            },
+            styleCategory(category){
+            switch (category){
+                case 'Horror':
+                    // console.log(category);
+                    return 'horror';
+                case 'Kids':
+                    // console.log(category);
+                    return 'kids';
+                default:
+                    return 'default';
+                    }
+            
+        },
+        // Function recieved from chatgpt.
+        updateCategoryBoxWidth() {
+        const categoryCount = this.allCategories.length;
+        // Calculate the width based on the number of categories
+        // You can adjust this calculation as per your requirements
+        const maxWidth = 400; // Set a maximum width to prevent it from becoming too wide
+        const minWidth = 250; // Set a minimum width to ensure visibility
+        const calculatedWidth = Math.min(maxWidth, Math.max(minWidth, categoryCount * 120));
+        this.$refs.categoryBox.style.width = calculatedWidth + 'px';
+    }
+        },
+        mounted() {
+            console.log('AddRide Mounted');
+
+            this.$nextTick( () => {
+                this.updateCategoryBoxWidth();
+            })
         }
+            
     }
 </script>
 
 <template>
+    <Navigation/>
     <main>
         <h1>Request to add a ride to the park</h1>
         <form class="addRide"  @submit.prevent="addRide">
@@ -64,21 +150,25 @@
             </div>
 
             <div class="categories">
-                <label for="categories">Select catgory : </label>
+                <label for="categories">Select category : </label>
                 <div id="categoryBox">
-                    <!-- add v-for to display added categories-->
-                    <input type="checkbox" id="category1" value="Horror">
-                    <label for="category1">Horror</label>
-
-                    <input type="checkbox" id="category2" value="Kids">
-                    <label for="category2">Kids</label>
-
-                    <input type="checkbox" id="category3" value="Family">
-                    <label for="category3">Family</label>
-
-                    <input type="checkbox" id="category4" value="Adult">
-                    <label for="category4">Adult</label>
+                    <div v-if="this.allCategories.length < 1 ">
+                    <p class="noCategories">it seems no categories have been added</p></div>
+                    <div v-else  v-for="category in this.allCategories" :key="category.categoryId">
+                        <input  :id="'category_' + category.categoryId" type="checkbox" v-model="categoryInput[category.categoryId]" id="categoryInput" >
+                        <label  :for="'category_' + category.categoryId" id="categoryLabel" :class="styleCategory(category.categoryName)">{{ category.categoryName }}</label>
+                    </div>
                     
+                    
+                </div>
+                <button @click="openPopup">Add Category</button>
+                <div v-if="showPopup" class="popupForm">
+                    <form>
+                        <label for="categoryname">Name : </label>
+                        <input type="text">
+                        <!-- color picker -->
+                        <button id="addCategory">Add Category</button>
+                    </form>
                 </div>
             </div>
                 <div class="rideInfo1" >
@@ -118,12 +208,23 @@
                     <input type="text" name="" id="rideVideo" placeholder="ex. &#34;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#34; ">
                 </div>
 
-            <button type="submit">Submit Ride</button>
+            <button  type="submit">Submit Ride</button>
         </form>
     </main>
 </template>
 
 <style scoped>
+.popupForm {
+    padding: 10px;
+    border-radius: 5px;
+    border: 3px solid black;
+    margin-left: 80px;
+    /* background-color: aqua; */
+    height: 50px;
+}
+#addCategory {
+    font-size: 19px;
+}
     h1{
         font-size: 30px;
         /* text-align: center; */
@@ -142,6 +243,16 @@
         height: 30px;
         margin-right: 20px;
     }
+    #rideImg {
+        border: 0px solid black;
+
+    }
+    .noCategories {
+
+       font-size: large; 
+        margin: 0px 10px 0px 10px;    
+        font-weight: bold;   
+    } 
     .addRide {
         /* border: 2px solid black; */
         width: 80%;
@@ -168,20 +279,52 @@
 
     .rideVideo {
     }
-    /* :not(:checked) and :checked  : nice to have*/ 
+
     .categories {
         display: flex;
+    }
+    .categories label {
+        width: 160px;
     }
 
     .categories > label{
         margin-right: 20px;
     }
+
     #categoryBox {
-     border: 3px solid black;
-     width: 200px;
-     border-radius: 5px   
+        display: flex;
+        flex-wrap:wrap;
+        border: 3px solid black;
+        /* width: 250px; */
+        /* height: auto;  */
+        border-radius: 5px;   
+        padding: 5px 0px 15px 5px;
+    }
+    #categoryLabel {
+        border: 3px solid black;
+        border-radius: 5px;
+        padding: 2px 5px 2px 5px;
+        font-weight: 600;
+        margin-right: 10px;
     }
 
+    input[type="checkbox"] {
+        appearance: none;
+        visibility: hidden;
+        margin: 0;
+    }
+    input[type="checkbox"]:checked + #categoryLabel {
+        border: 4px solid black;
+        
+        
+    }
+    #categoryInput {
+        /* appearance: none; */
+    }
+
+    label {
+        
+    }
     .addRide button{
         width: 100px;
         margin-left: 10px;
@@ -195,7 +338,35 @@
     .addRide button:hover {
         border: 4px solid black ;
         cursor: pointer;
+        
     }
 
+     /* ride: {
+             rideName: '',
+             rideImg: '',
+             rideVideo: '',
+             requiredHeight: 0,
+             ridePrice: 0,
+             rideSpeed: 0,
+             categories: [],
+             rideCapacity: 0,
+             rideDuration: '',
+             rideBuildyear: 0,
+             rideStatus: true
 
+         }, */
+/* style categories */
+.horror {
+    background-color: purple;
+    color: rgb(43, 255, 0);
+}
+
+.kids {
+    background: linear-gradient(45deg, red, orange, rgb(167, 167, 0), green, rgb(42, 42, 255), rgb(167, 76, 231), violet, red);
+    color:white  ;
+}
+
+.default {
+    background-color: white;
+}
     </style>

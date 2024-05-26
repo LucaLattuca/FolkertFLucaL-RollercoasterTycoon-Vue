@@ -1,38 +1,48 @@
 <script>
 import Ride from './Ride.vue'
 import axios from 'axios';
+import Navigation from './Navigation.vue';
 
 export default {
     components : {
+        Navigation,
         Ride
     },
     data() {
         return {
+            allCategories: [{
+                categoryId: 0,
+                categoryName: 'All Categories'
+            }],
            rides: [],
-           selected :'All Rides',
+           selected :'All Categories',
            error: "Ride not found"
         }
     },
     created() {
         this.getRides();
+        this.getCategories();
     },
         methods : {
-       
+            refreshPage(){
+                // function resets age after option has been clicked. 
+                // then it only shows the rides with a certain category
+            },
             async getRides() {
                 try {
                     const response = await axios.get('http://localhost:9000/attractions');
                     this.rides = response.data;
-                    console.log(JSON.stringify(this.rides, null, 2));
+                    // console.log(JSON.stringify(this.rides, null, 2));
                     this.rides.forEach(ride => {
-                        console.log(ride.name);
-                        console.log(ride.speed);
-                        console.log("categories :");
+                        // console.log(ride.name);
+                        // console.log(ride.speed);
+                        // console.log("categories :");
                         ride.categories.forEach(category => {
-                            console.log(category.categoryName);
+                            // console.log(category.categoryName);
                         })
-                        console.log(ride.price);
-                        console.log(ride.height);
-                        console.log("----------------");
+                        // console.log(ride.price);
+                        // console.log(ride.height);
+                        // console.log("----------------");
         })
                     this.rides = response.data.map(ride => ({
                         rideID: ride.id,
@@ -53,7 +63,44 @@ export default {
                     console.log(error);
                 }
             },
+            async getCategories(){
+                try {
+
+                    const response = await axios.get('http://localhost:9000/categories');
+                    this.allCategories = response.data;
+                    // console.log(JSON.stringify(this.allCategories, null, 2));
+                    this.allCategories.forEach(category => {
+                        console.log(this.allCategories);
+                        console.log(category.id);
+                        console.log(category.categoryName);
+                        console.log('---------------------------');
+
+                    })
+                    this.allCategories = response.data.map(category => ({
+                        categoryId: category.id,
+                        categoryName: category.categoryName
+                    }))
+                }catch(error){
+                    this.error = "categories failed to fetch";
+                    console.log(error);
+                }
+            },
+            navigateToAddRide() {
+                this.$router.push({name: 'AddRide'});
+            }
+
         
+    },
+    computed: {
+        filteredRides() { 
+            if(this.selected === 'All Categories') {
+                return this.rides;
+            }else {
+                return this.rides.filter(ride =>
+                    ride.categories.some(category => category.categoryName === this.selected)
+                );
+            }
+        }
     },
     mounted() {
         console.log('Allrides Mounted');
@@ -64,27 +111,25 @@ export default {
 </script>
 
 <template>
-    
+    <Navigation/>
     
     <h1 id="sectionTitle" >Our Rides</h1>
     <main>
         <div class="filter">
             <h1>Filter by</h1>
-            <div class="categories">
-                <select v-model="selected">
-                    <option selected>All Rides</option>
+            <div class="categories" >
+                <select v-model="selected" @change="refreshPage" >
+                    <option selected value>All Categories</option>
                     <!-- TODO add all categories to filter  -->
-                    <option >Spooky</option>
-                    <option>Thrill</option>
-                    <option>Family</option>
+                     <option v-for="category in this.allCategories" :value="category.categoryName">{{category.categoryName}}</option> 
                 </select>
             </div>
-            <button><p>Add Ride</p><img src="/src/assets/addIcon.svg" alt=""></button>
+            <button @click="navigateToAddRide"><p>Add Ride</p><img src="/src/assets/addIcon.svg" alt=""></button>
         </div>
         <!-- TODO add rides to display  -->
         <ul class="rides">
             
-           <Ride v-for="ride in rides" :key="ride.id" :ride="ride"  />
+           <Ride v-for="ride in filteredRides" :key="ride.rideID" :ride="ride"  />
          
         </ul>
     </main>

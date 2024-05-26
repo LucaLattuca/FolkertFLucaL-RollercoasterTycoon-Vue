@@ -1,7 +1,14 @@
 
 <script>
+import Ride from './Ride.vue'
+import axios from 'axios';
+
+
 export default {
   methods: {
+    navigateToAllRides() {
+                this.$router.push({name: 'AllRides'});
+            }
   },
 }
 </script>
@@ -13,14 +20,13 @@ export default {
     </div>
 
     <div class="nav">
-      <h2><a id="funIcon" href="">All Rides</a></h2><img src="/src/assets/FunLogo.svg" alt="logoIcon" width="32px" height="32px">
+      <h2 @click="navigateToAllRides"><a id="funIcon" href="">All Rides</a></h2><img src="/src/assets/FunLogo.svg" alt="logoIcon" width="32px" height="32px">
       <h2><a id="warningIcon" href="">Report a malfunction</a></h2><img src="/src/assets/warningIcon.svg" alt="warningIcon" width="40px" height="40px">
       <h2><a id="infoIcon" href="">About</a></h2><img src="/src/assets/infoIcon.svg" alt="infoIcon" width="40px" height="40px">
     </div>
   </header>
 
   <main>
-    <AllRides/>
   </main>
   
 
