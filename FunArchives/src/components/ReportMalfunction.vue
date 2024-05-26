@@ -2,38 +2,11 @@
 // import AllRides from './AllRides.vue'
 
     export default {
-        props : {
-            rides : {
-                type: Array,
-                default(){
-                    return [{
-                    rideName: "Ride1",
-                    rideImg:  `/src/assets/` + `Rollercoaster1.png`,
-                    categories : ["horror","family"],
-                    description : "a cool ride 1",
-             
-                    },
-                    {
-                    rideName: "Ride2",
-                    rideImg:  `/src/assets/` + `Rollercoaster1.png`,
-                    categories : ["horror","fun"],
-                    description : "a cool ride 2",
-             
-                    },
-                    {
-                    rideName: "Ride1",
-                    rideImg:  `/src/assets/` + `Rollercoaster1.png`,
-                    categories : ["horror","family"],
-                    description : "a cool ride 3",
-             
-                    }];
-                }
-            }
-        },
         data() {
             return {
                 malfunction : {
-                    rideNamme : '',
+                    malfunctionID : 1,
+                    rideName : '',
                     info : '',
                     time : ''
                 }
@@ -41,18 +14,50 @@
         },
         methods : {
 
-            // getAllRides()
-            handleSubmit() {
-                this.$emot('submit-malfunction',this.malfunction);
-                this.resetForm();
+            getRides(){
+                const self = this;
+                fetch("https://localhost:9000/allAttractions")
+                .then(function (response) {
+                   return response.json();
+                }).then(function (rides){
+                    self.rides = rides
+                }) 
             },
-            resetForm() {
-                this.malfunction = {
-                    rideName: '',
-                    info : '',
-                    time: ''
-                }
+            reportMalfunction(){
+                
+                const self = this;
+                fetch('https://localhost:9000/malfunctions' ,{
+                    method: "Post",
+                    headers:{
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        
+                    }) 
+                }).then(function (response) {
+                    console.log(response);
+                    if(!response.error){
+                        self.$emit('reportSubmitted')
+                    }
+                })
             }
+            
+            // show form upon clicking malfunction
+            // handleSubmit() {
+            //     this.$emot('submit-malfunction',this.malfunction);
+            //     this.resetForm();
+            // },
+            // resetForm() {
+            //     this.malfunction = {
+            //         rideName: '',
+            //         info : '',
+            //         time: ''
+            //     }
+            // }
+        },
+        mounted() {
+            console.log('reportMalfunction mounted');
+            this.getRides();
         }
 
     }

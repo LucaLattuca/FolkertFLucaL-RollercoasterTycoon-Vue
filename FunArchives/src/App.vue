@@ -11,6 +11,7 @@ import Navigation from './components/Navigation.vue'
 import Ride from './components/Ride.vue';
 import ReportRide from './components/ReportMalfunction.vue';
 import ReportMalfunction from './components/ReportMalfunction.vue';
+import AddRide from './components/AddRide.vue';
 
 </script>
 
@@ -18,8 +19,9 @@ import ReportMalfunction from './components/ReportMalfunction.vue';
   <Navigation/>
   
   <main>
-    <AllRides/>
-    <!-- <ReportMalfunction/> -->
+    <!-- <AddRide/> -->
+    <!-- <AllRides/> -->
+    <ReportMalfunction/>
     <!-- <Ride/> -->
   </main>
   

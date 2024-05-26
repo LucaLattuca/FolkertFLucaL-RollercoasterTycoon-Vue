@@ -1,4 +1,6 @@
 <script>
+import { capitalize } from 'vue';
+
 
 export default {
     props : {
@@ -8,18 +10,35 @@ export default {
             return {
                     rideName: 'The Dalton Terror',
                     rideImg:  '/src/assets/Rollercoaster1.png',
-                    categories : ["Horror","Kids"],
+                    categories : ["Horror","Kids", "New" , "horror"],
                     description : 'This is literally the coolest ride in existence',
                     
                };
             },
         },
     },methods: {
+        capitalize(){
+            // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+            return s && s[0].toUpperCase() + s.slice(1);
+        },
         reportRide(){
             console.log("Hello");
         },
         viewRide(){
             console.log("hellow");
+        },
+        styleCategory(category){
+            switch (capitalize(category)){
+                case 'Horror':
+                    console.log(category);
+                    return 'horror';
+                case 'Kids':
+                    console.log(category);
+                    return 'kids';
+                default:
+                    return 'default';
+                    }
+
         }
     }
 };  
@@ -33,7 +52,7 @@ export default {
                     <img v-if="ride.rideImg" :src="ride.rideImg" >
                 </div>
                 <div class="moreInfo">
-                    <div class="tags"><li v-for="category in ride.categories">{{ category }}</li></div>
+                    <div class="tags"><li v-for="category in ride.categories" :key="category" :class="styleCategory(category)">{{ category }}</li></div>
                     <p class="description" v-if="ride.description">{{ride.description}}</p>
                     <div class="rideActions">
                         <button class="viewRide" @click="viewRide">
@@ -162,5 +181,19 @@ export default {
     margin-top: 6px;
 }
 
+/* style categories */
+li .horror {
+    background-color: purple;
+    color: rgb(43, 255, 0);
+}
+
+li .kids {
+    background: linear-gradient(45deg, red, orange, rgb(167, 167, 0), green, rgb(42, 42, 255), rgb(167, 76, 231), violet, red);
+    color:white  ;
+}
+
+li .default {
+    background-color: aqua;
+}
 
 </style>
