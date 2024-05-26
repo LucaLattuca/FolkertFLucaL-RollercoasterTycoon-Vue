@@ -1,10 +1,17 @@
 <script>
     export default {
         ride: {
-            rideName : '',
-            rideImg : '',
-            description: '',
-            categories: '',
+            rideName: '',
+            rideImg: '',
+            rideVideo: '',
+            requiredHeight: 0,
+            ridePrice: 0,
+            rideSpeed: 0,
+            categories: [],
+            rideCapacity: 0,
+            rideDuration: '',
+            rideBuildyear: 0,
+            rideStatus: true
 
         },
         methods: {
@@ -19,13 +26,15 @@
                         ride : {
                             rideName : this.rideName,
                             rideImg: this.rideImg,
+                            rideVideo: this.rideVideo,
+                            requiredHeight : this.requiredHeight,
+                            ridePrice : this.ridePrice,
+                            rideSpeed: this.rideSpeed,
                             categories : [],
                             rideCapacity: this.rideCapacity,
-                            rideSpeed: this.rideSpeed,
                             rideDuration: this.rideDuration,
                             rideBuildyear: this.rideBuildyear,
-                            rideVideo: this.rideVideo,
-                            requiredHeight : this.requiredHeight
+                            rideStatus: this.rideStatus
                         }
                     }) 
                 }).then(function (response) {
@@ -97,6 +106,10 @@
 
                         <label for="ride.requiredHeight">Required Height : </label>
                         <input type="number" name="" id="requiredHeight">
+                    </div>
+                    <div>
+                        <label for="ride.ridePrice">Price : </label>
+                        <input type="number" name="" id="ridePrice">
                     </div>
                 </div>
                 <div class="rideVideo">

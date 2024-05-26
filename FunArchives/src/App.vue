@@ -12,17 +12,19 @@ import Ride from './components/Ride.vue';
 import ReportRide from './components/ReportMalfunction.vue';
 import ReportMalfunction from './components/ReportMalfunction.vue';
 import AddRide from './components/AddRide.vue';
+import GetInfo from './components/GetInfo.vue';
 
 </script>
 
 <template>
-  <Navigation/>
+  <!-- <Navigation/> -->
   
   <main>
     <!-- <AddRide/> -->
-    <!-- <AllRides/> -->
-    <ReportMalfunction/>
+    <AllRides/>
+    <!-- <ReportMalfunction/> -->
     <!-- <Ride/> -->
+    <!-- <GetInfo/> -->
   </main>
   
 <footer>

@@ -8,6 +8,7 @@ export default {
             type: Object,
             default() {
             return {
+                    rideID : 0,
                     rideName: 'The Dalton Terror',
                     rideImg:  '/src/assets/Rollercoaster1.png',
                     categories : ["Horror","Kids", "New" , "horror"],
@@ -17,7 +18,7 @@ export default {
             },
         },
     },methods: {
-        capitalize(){
+        capitalize(s){
             // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
             return s && s[0].toUpperCase() + s.slice(1);
         },
@@ -28,7 +29,7 @@ export default {
             console.log("hellow");
         },
         styleCategory(category){
-            switch (capitalize(category)){
+            switch (category){
                 case 'Horror':
                     console.log(category);
                     return 'horror';
@@ -40,6 +41,17 @@ export default {
                     }
 
         }
+    }, filters: {
+        capitalize: function (data) { 
+        var capitalized = [] 
+        data.split(' ').forEach(word => { 
+          capitalized.push( 
+            word.charAt(0).toUpperCase() + 
+            word.slice(1).toLowerCase() 
+          ) 
+        }) 
+        return capitalized.join(' ') 
+      } 
     }
 };  
 </script>
@@ -52,8 +64,11 @@ export default {
                     <img v-if="ride.rideImg" :src="ride.rideImg" >
                 </div>
                 <div class="moreInfo">
-                    <div class="tags"><li v-for="category in ride.categories" :key="category" :class="styleCategory(category)">{{ category }}</li></div>
+                    <div class="tags"><li v-for="category in ride.categories" :key="category" :class="styleCategory(category.categoryName)">{{ category.categoryName |capitalize}}</li></div>
+                    
                     <p class="description" v-if="ride.description">{{ride.description}}</p>
+                    <p class="description" v-else>no ride description available</p>
+
                     <div class="rideActions">
                         <button class="viewRide" @click="viewRide">
                             View Ride

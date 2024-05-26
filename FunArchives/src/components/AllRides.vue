@@ -1,5 +1,6 @@
 <script>
 import Ride from './Ride.vue'
+import axios from 'axios';
 
 export default {
     components : {
@@ -7,24 +8,56 @@ export default {
     },
     data() {
         return {
-           rides: []
+           rides: [],
+           selected :'All Rides',
+           error: "Ride not found"
         }
     },
+    created() {
+        this.getRides();
+    },
         methods : {
-        getRides(){
-            const self = this;
-            fetch("https://localhost:9000/allAttractions")
-            .then(function (response) {
-                return response.json();
-            }).then(function (rides){
-                self.rides = rides
-            })
-        }
+       
+            async getRides() {
+                try {
+                    const response = await axios.get('http://localhost:9000/attractions');
+                    this.rides = response.data;
+                    console.log(JSON.stringify(this.rides, null, 2));
+                    this.rides.forEach(ride => {
+                        console.log(ride.name);
+                        console.log(ride.speed);
+                        console.log("categories :");
+                        ride.categories.forEach(category => {
+                            console.log(category.categoryName);
+                        })
+                        console.log(ride.price);
+                        console.log(ride.height);
+                        console.log("----------------");
+        })
+                    this.rides = response.data.map(ride => ({
+                        rideID: ride.id,
+                        rideName: ride.name,
+                        rideImg: ride.image,
+                        categories: ride.categories,
+                        description: ride.description
+
+                        // console.log(ride.name);
+                        // console.log(ride.speed);
+                        // console.log(ride.price);
+                        // console.log(ride.height);
+                        // console.log("---------------");
+                    }))
+                    
+                }catch(error){
+                    this.error = 'failed to fetch rides';
+                    console.log(error);
+                }
+            },
+        
     },
     mounted() {
         console.log('Allrides Mounted');
 
-        this.getRides();
     }
     
 }
@@ -50,8 +83,8 @@ export default {
         </div>
         <!-- TODO add rides to display  -->
         <ul class="rides">
-
-         <Ride v-for="ride in rides" :rideName="ride.rideName" :rideImg="ride.rideImg" :categories="ride.categories" :description="ride.description" />
+            
+           <Ride v-for="ride in rides" :key="ride.id" :ride="ride"  />
          
         </ul>
     </main>
