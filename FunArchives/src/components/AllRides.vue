@@ -7,30 +7,26 @@ export default {
     },
     data() {
         return {
-            selected: 'All Rides',
-            rides: [ 
-                {
-                    rideName : String,
-                    rideImg : String,
-                    categories : [],
-                    description : String,
-
-                }
-            ]
+           rides: []
         }
-    },methods : {
+    },
         methods : {
         getRides(){
             const self = this;
-            fetch("https://localhost:9000/users")
+            fetch("https://localhost:9000/allAttractions")
             .then(function (response) {
                 return response.json();
             }).then(function (rides){
                 self.rides = rides
             })
         }
+    },
+    mounted() {
+        console.log('Allrides Mounted');
+
+        this.getRides();
     }
-    }
+    
 }
 </script>
 
@@ -55,7 +51,7 @@ export default {
         <!-- TODO add rides to display  -->
         <ul class="rides">
 
-         <Ride v-for="ride in rides" : />
+         <Ride v-for="ride in rides" :rideName="ride.rideName" :rideImg="ride.rideImg" :categories="ride.categories" :description="ride.description" />
          
         </ul>
     </main>

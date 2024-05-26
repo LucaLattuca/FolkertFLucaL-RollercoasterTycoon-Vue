@@ -6,57 +6,46 @@ export default {
             type: Object,
             default() {
             return {
-                    rideName: String,
-                    rideImg:  String,
-                    categories : Array,
-                    description : String,
+                    rideName: 'The Dalton Terror',
+                    rideImg:  '/src/assets/Rollercoaster1.png',
+                    categories : ["Horror","Kids"],
+                    description : 'This is literally the coolest ride in existence',
                     
                };
             },
         },
+    },methods: {
+        reportRide(){
+            console.log("Hello");
+        },
+        viewRide(){
+            console.log("hellow");
+        }
     }
 };  
-    
 </script>
 
 <template>
      <li class="ride">
                 <div class="basicInfo">
-                    <h2>{{ride.rideName}}</h2>
-                    <img :src="ride.rideImg" >
+                    <h2 v-if="ride.rideName">{{ride.rideName}}</h2>
+                    <h2 v-else>Title Unknown</h2>
+                    <img v-if="ride.rideImg" :src="ride.rideImg" >
                 </div>
                 <div class="moreInfo">
                     <div class="tags"><li v-for="category in ride.categories">{{ category }}</li></div>
-                    <p class="description">{{ride.description}}</p>
+                    <p class="description" v-if="ride.description">{{ride.description}}</p>
                     <div class="rideActions">
-                        <button class="viewRide">
+                        <button class="viewRide" @click="viewRide">
                             View Ride
                         </button>
-                        <div class="reportButton"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" ><path d="m40-120 440-760 440 760H40Zm115.33-66.67h649.34L480-746.67l-324.67 560ZM482.78-238q14.22 0 23.72-9.62 9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5Zm-33.45-114H516v-216h-66.67v216ZM480-466.67Z"/></svg>
+                        <div @click="reportRide" class="reportButton" ><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" ><path d="m40-120 440-760 440 760H40Zm115.33-66.67h649.34L480-746.67l-324.67 560ZM482.78-238q14.22 0 23.72-9.62 9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5Zm-33.45-114H516v-216h-66.67v216ZM480-466.67Z"/></svg>
                             <p>Report a malfunction</p>
                         </div>
                     </div>
                 </div>
         </li>
-        <li class="ride">
-                
-                <div class="basicInfo">
-                    <h2>The Dalton Terror</h2>
-                    <img src="/src/assets/Rollercoaster1.png" alt="ride1" >
-                </div>
-                <div class="moreInfo">
-                    <div class="tags"><p>Horror</p><p>Family</p></div>
-                    <p class="description">this ride is freaking awesome. it was made in 'year' and was located in 'country'. it held up to 'maxPeople' and weighed 'weight' in total. </p>
-                    <div class="rideActions">
-                        <button class="viewRide">
-                            View Ride
-                        </button>
-                        <div class="reportButton"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" ><path d="m40-120 440-760 440 760H40Zm115.33-66.67h649.34L480-746.67l-324.67 560ZM482.78-238q14.22 0 23.72-9.62 9.5-9.61 9.5-23.83 0-14.22-9.62-23.72-9.61-9.5-23.83-9.5-14.22 0-23.72 9.62-9.5 9.62-9.5 23.83 0 14.22 9.62 23.72 9.62 9.5 23.83 9.5Zm-33.45-114H516v-216h-66.67v216ZM480-466.67Z"/></svg>
-                            <p>Report a malfunction</p>
-                        </div>
-                    </div>
-                </div>
-        </li>
+        
 </template>
 
 <style scoped>
