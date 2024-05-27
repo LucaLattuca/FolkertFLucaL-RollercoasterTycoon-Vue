@@ -31,20 +31,24 @@ export default {
             async getRides() {
                 try {
                     const response = await axios.get('http://localhost:9000/attractions');
-                    this.rides = response.data;
-                    console.log(response.data);
-                    // console.log(JSON.stringify(this.rides, null, 2));
-                    this.rides.forEach(ride => {
-                        console.log(ride.name);
-                        // console.log(ride.speed);
-                        // console.log("categories :");
-                        ride.categories.forEach(category => {
-                            // console.log(category.categoryName);
-                          })
-                        })
+                    
+                    
                     this.rides = response.data.map(ride => ({
-                        
-                    }))
+                        rideID: ride.id,
+                        rideName: ride.name,
+                        rideImg: ride.image,
+                        rideVideo: ride.video,
+                        requiredHeight: ride.height,
+                        ridePrice: ride.price,
+                        rideSpeed: ride.speed,
+                        rideCapacity: ride.capacity,
+                        rideDuration: ride.duration,
+                        rideBuildyear: ride.buildYear,
+                        rideStatus: ride.status,
+                        categories: ride.categoryIds,
+                    
+                    }));
+                    console.log(JSON.stringify(this.rides, null, 2)); 
                     
                 }catch(error){
                     this.error = 'failed to fetch rides';
@@ -56,14 +60,9 @@ export default {
 
                     const response = await axios.get('http://localhost:9000/categories');
                     this.allCategories = response.data;
-                    // console.log(JSON.stringify(this.allCategories, null, 2));
-                    this.allCategories.forEach(category => {
-                        // console.log(this.allCategories);
-                        // console.log(category.id);
-                        // console.log(category.categoryName);
-                        // console.log('---------------------------');
-                        
-                    })
+                    console.log(response.data);
+                    console.log(JSON.stringify(this.allCategories, null, 2));
+                   
                     this.allCategories = response.data.map(category => ({
                         categoryId: category.id,
                         categoryName: category.categoryName
@@ -82,6 +81,7 @@ export default {
     computed: {
         filteredRides() { 
             if(this.selected === 'All Categories') {
+               
                 return this.rides;
             }else {
                 return this.rides.filter(ride =>
@@ -117,7 +117,7 @@ export default {
         <!-- TODO add rides to display  -->
         <ul class="rides">
             <h1 v-if="rides.length === 0">It seems there are no rides , Add one here ^</h1>
-           <Ride v-for="ride in filteredRides" :key="ride.rideID" :ride="ride"  />
+           <Ride v-for="ride in filteredRides" :key="ride.rideID"  :ride="ride" />
          
         </ul>
     </main>

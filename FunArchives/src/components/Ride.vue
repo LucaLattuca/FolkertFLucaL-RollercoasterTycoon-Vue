@@ -6,16 +6,16 @@ export default {
     props : {
         ride : {
             type: Object,
-            default() {
-            return {
+            default () {
+                return {
                     rideID : 0,
                     rideName: 'The Dalton Terror',
                     rideImg:  '/src/assets/Rollercoaster1.png',
                     categories : ["Horror","Kids", "New" , "horror"],
                     description : 'This is literally the coolest ride in existence',
                     
-               };
-            },
+                }
+            }
         },
     },methods: {
         capitalize(s){
@@ -23,10 +23,10 @@ export default {
             return s && s[0].toUpperCase() + s.slice(1);
         },
         reportRide(){
-            console.log("Hello");
+            // console.log("Hello");
         },
         viewRide(){
-            console.log("hellow");
+            // console.log("hellow");
         },
         styleCategory(category){
             switch (category){
@@ -41,6 +41,9 @@ export default {
                     }
             
         }
+    },
+    mounted() {
+        console.log("ride mounted");
     }
 };  
 </script>
@@ -55,9 +58,7 @@ export default {
                 <div class="moreInfo">
                     <div class="tags"><li v-for="category in ride.categories" :key="category.categoryName" :class="styleCategory(category.categoryName)">{{ category.categoryName }}</li></div>
                     
-
-                    <p class="description" v-if="ride.description">{{ride.description}}</p>
-                    <p class="description" v-else>no ride description available</p>
+                    <p class="description">{{  }}</p>
 
                     <div class="rideActions">
                         <button class="viewRide" @click="viewRide">
