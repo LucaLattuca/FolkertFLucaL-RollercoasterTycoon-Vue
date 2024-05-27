@@ -194,7 +194,7 @@ import axios from 'axios';
                     
                     
                 </div>
-                <button @click="openPopup" id="addCategory">Add Category</button>
+                <button type="button" @click="openPopup" id="addCategory">Add Category</button>
                 <div v-if="showPopup" class="popupForm">
                     <form  @submit.prevent="addCategory">
                         <div>
@@ -245,7 +245,7 @@ import axios from 'axios';
                     <input type="text" name="" id="rideVideo" placeholder="ex. &#34;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#34; " v-model="ride.rideVideo" >
                 </div>
 
-            <button  type="submit">Submit Ride</button>
+            <button  type="submit" >Submit Ride</button>
         </form>
     </main>
 </template>
