@@ -10,16 +10,25 @@ import axios from 'axios';
         return {
             allCategories: [{
                 categoryId: 0,
-                categoryName: 'All Categories'
+                categoryName: ''
             }],
             categoryInput: {},
-            showPopup : true
+            showPopup : false,
+            newCategory: {
+                categoryName: '',
+                attractionsIds: null
+            },
+            rideName: '',
+            rideImg: null,
         }
     },
     created () {
         this.getCategories();
     },
     methods: {
+        handleImageUpload(event){
+            const file = event.target.files[0];
+        },
         capitalize(s){
             // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
             return s && s[0].toUpperCase() + s.slice(1);
@@ -29,22 +38,22 @@ import axios from 'axios';
         },
         addCategory() {
                 this.showPopup = false;
+                this.postCategory();
             },
             postCategory(){
-                // fetch('https://localhost:9000/attractions' ,{
-                //     method: "Post",
-                //     headers:{
-                //         "Content-Type": "application/json",
-                //     },
-                //     body: JSON.stringify({
-                      
-                //     }) 
-                // }).then(function (response) {
-                //     console.log(response);
-                //     if(!response.error){
-                //         self.$emit('rideSubmitted')
-                //     }
-                // })
+                axios.post('http://localhost:9000/categories', this.newCategory)
+                .then(response => {
+                    console.log(response.data);
+                    this.getCategories();
+
+                    this.newCategory ={
+                        categoryName: '',
+                        attractionsIds: null
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
             },
             addRide(){
                 const self = this;
@@ -145,7 +154,8 @@ import axios from 'axios';
                 </div>
                 <div>
                     <label for="ride.rideImg"> ride Image : </label>
-                    <input type="file" id="rideImg" accept="image/png, image/jpeg"/>
+                    <input type="file" id="rideImg" accept="image/png, image/jpeg" @change="handleImageUpload"/>
+                    <img v-if="rideImg" :src="rideImg" alt="Uploaded Image">
                 </div>
             </div>
 
@@ -161,13 +171,17 @@ import axios from 'axios';
                     
                     
                 </div>
-                <button @click="openPopup">Add Category</button>
+                <button @click="openPopup" id="addCategory">Add Category</button>
                 <div v-if="showPopup" class="popupForm">
-                    <form>
-                        <label for="categoryname">Name : </label>
-                        <input type="text">
-                        <!-- color picker -->
-                        <button id="addCategory">Add Category</button>
+                    <form @submit.prevent="addCategory">
+                        <div>
+                            <label for="newCategory">Name : </label>
+                            <input type="text" v-model="newCategory.categoryName">
+                        </div>
+                        <div>
+                            <!-- color picker -->
+                            <button type="submit" id="addNewCategory">Add Category</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -215,15 +229,23 @@ import axios from 'axios';
 
 <style scoped>
 .popupForm {
+    display: flex;
     padding: 10px;
     border-radius: 5px;
     border: 3px solid black;
     margin-left: 80px;
     /* background-color: aqua; */
-    height: 50px;
+    height: 100px;
+
+}
+ #addNewCategory {
+    font-size: 19px;
+    margin-top: 15px;
+    margin-left: 70px;
 }
 #addCategory {
     font-size: 19px;
+
 }
     h1{
         font-size: 30px;
