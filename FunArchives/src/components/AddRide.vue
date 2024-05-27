@@ -18,6 +18,7 @@ import axios from 'axios';
                 attractionsIds: null
             },
             ride : {
+                rideId: null,
                 rideName : '',
                 rideImg: null,
                 rideVideo:  '',
@@ -79,6 +80,7 @@ import axios from 'axios';
             },
             postRide(){
                 const transformedRide = {
+                    id: this.ride.rideId,
                     name: this.ride.rideName,
                     picture: this.ride.rideImg,
                     video: this.ride.rideVideo,
@@ -194,14 +196,14 @@ import axios from 'axios';
                 </div>
                 <button @click="openPopup" id="addCategory">Add Category</button>
                 <div v-if="showPopup" class="popupForm">
-                    <form @submit.prevent="addCategory">
+                    <form  @submit.prevent="addCategory">
                         <div>
                             <label for="newCategory">Name : </label>
                             <input type="text" v-model="newCategory.categoryName">
                         </div>
                         <div>
                             <!-- color picker -->
-                            <button type="submit" id="addNewCategory">Add Category</button>
+                            <button type="submit" id="addNewCategory" >Add Category</button>
                         </div>
                     </form>
                 </div>

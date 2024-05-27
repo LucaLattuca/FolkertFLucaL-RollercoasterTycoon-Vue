@@ -32,30 +32,18 @@ export default {
                 try {
                     const response = await axios.get('http://localhost:9000/attractions');
                     this.rides = response.data;
+                    console.log(response.data);
                     // console.log(JSON.stringify(this.rides, null, 2));
                     this.rides.forEach(ride => {
-                        // console.log(ride.name);
+                        console.log(ride.name);
                         // console.log(ride.speed);
                         // console.log("categories :");
                         ride.categories.forEach(category => {
                             // console.log(category.categoryName);
+                          })
                         })
-                        // console.log(ride.price);
-                        // console.log(ride.height);
-                        // console.log("----------------");
-        })
                     this.rides = response.data.map(ride => ({
-                        rideID: ride.id,
-                        rideName: ride.name,
-                        rideImg: ride.image,
-                        categories: ride.categories,
-                        description: ride.description
-
-                        // console.log(ride.name);
-                        // console.log(ride.speed);
-                        // console.log(ride.price);
-                        // console.log(ride.height);
-                        // console.log("---------------");
+                        
                     }))
                     
                 }catch(error){
@@ -70,11 +58,11 @@ export default {
                     this.allCategories = response.data;
                     // console.log(JSON.stringify(this.allCategories, null, 2));
                     this.allCategories.forEach(category => {
-                        console.log(this.allCategories);
-                        console.log(category.id);
-                        console.log(category.categoryName);
-                        console.log('---------------------------');
-
+                        // console.log(this.allCategories);
+                        // console.log(category.id);
+                        // console.log(category.categoryName);
+                        // console.log('---------------------------');
+                        
                     })
                     this.allCategories = response.data.map(category => ({
                         categoryId: category.id,
@@ -128,7 +116,7 @@ export default {
         </div>
         <!-- TODO add rides to display  -->
         <ul class="rides">
-            
+            <h1 v-if="rides.length === 0">It seems there are no rides , Add one here ^</h1>
            <Ride v-for="ride in filteredRides" :key="ride.rideID" :ride="ride"  />
          
         </ul>
@@ -157,7 +145,7 @@ main {
     
 }
 .rides {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     display: flex;
     justify-content: left;
     padding: 10px 10px 10px 10px;
