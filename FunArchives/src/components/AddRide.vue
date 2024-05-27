@@ -48,6 +48,9 @@ import axios from 'axios';
                 reader.readAsDataURL(file)
             }
         },
+        updateImageUrl(event) {
+            this.ride.rideImg = event.target.value;
+        },
         capitalize(s){
             // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
             return s && s[0].toUpperCase() + s.slice(1);
@@ -79,17 +82,18 @@ import axios from 'axios';
                     name: this.ride.rideName,
                     picture: this.ride.rideImg,
                     video: this.ride.rideVideo,
-                    capacity: this.ride.rideCapacity,
-                    duration: this.ride.rideDuration,
-                    buildYear: this.ride.rideBuildyear,
                     height: this.ride.requiredHeight,
                     price: this.ride.ridePrice,
                     speed: this.ride.rideSpeed,
-                    categories: this.ride.categories,
-                    status: this.ride.rideStatus
+                    capacity: this.ride.rideCapacity,
+                    duration: this.ride.rideDuration,
+                    buildYear: this.ride.rideBuildyear,
+                    status: this.ride.rideStatus,
+                    categoryIds: this.ride.categories
                     
 
                 };
+                console.log(JSON.stringify(transformedRide));
                 axios.post('http://localhost:9000/attractions', transformedRide)
                 .then(response => {
                     console.log(response.data);
@@ -170,7 +174,7 @@ import axios from 'axios';
                 </div>
                 <div>
                     <label for="rideImg"> ride Image : </label>
-                    <input type="file" id="rideImg" accept="image/png, image/jpeg" @change="handleImageUpload"  /> 
+                    <input type="text" id="rideImg" placeholder="enter image URL"  @change="updateImageUrl"  /> 
                     <img v-if="ride.rideImg" :src="ride.rideImg" alt="Uploaded Image" width="100px" height="100px" style="position: relative; margin-left: 0px; border: 2px solid black; padding: 1px; border-radius: 2px;"  >
                 </div>
             </div>
@@ -226,7 +230,7 @@ import axios from 'axios';
                     <div >
 
                         <label for="requiredHeight">Required Height : </label>
-                        <input type="number" name="" id="requiredHeight" v-model="ride.requiredHeight">
+                        <input type="string" name="" id="requiredHeight" v-model="ride.requiredHeight">
                     </div>
                     <div>
                         <label for="ridePrice">Price : </label>
