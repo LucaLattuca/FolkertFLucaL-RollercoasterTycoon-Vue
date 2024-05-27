@@ -12,14 +12,25 @@ import axios from 'axios';
                 categoryId: 0,
                 categoryName: ''
             }],
-            categoryInput: {},
             showPopup : false,
             newCategory: {
                 categoryName: '',
                 attractionsIds: null
             },
-            rideName: '',
-            rideImg: null,
+            ride : {
+                rideName : '',
+                rideImg: null,
+                rideVideo:  '',
+                requiredHeight : '', 
+                ridePrice : 0,
+                rideSpeed: 0,
+                categories : [],
+                rideCapacity: 0,
+                rideDuration: '',
+                rideBuildyear: 0,
+                rideStatus: true,
+
+            }
         }
     },
     created () {
@@ -28,6 +39,14 @@ import axios from 'axios';
     methods: {
         handleImageUpload(event){
             const file = event.target.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.ride.rideImg = e.target.result;
+                    console.log(this.imageUrl);
+                };
+                reader.readAsDataURL(file)
+            }
         },
         capitalize(s){
             // https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
@@ -55,33 +74,30 @@ import axios from 'axios';
                     console.error(error);
                 })
             },
-            addRide(){
-                const self = this;
-                fetch('https://localhost:9000/attractions' ,{
-                    method: "Post",
-                    headers:{
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        ride : {
-                            rideName : this.rideName,
-                            rideImg: this.rideImg,
-                            rideVideo: this.rideVideo,
-                            requiredHeight : this.requiredHeight,
-                            ridePrice : this.ridePrice,
-                            rideSpeed: this.rideSpeed,
-                            categories : [],
-                            rideCapacity: this.rideCapacity,
-                            rideDuration: this.rideDuration,
-                            rideBuildyear: this.rideBuildyear,
-                            rideStatus: this.rideStatus
-                        }
-                    }) 
-                }).then(function (response) {
-                    console.log(response);
-                    if(!response.error){
-                        self.$emit('rideSubmitted')
-                    }
+            postRide(){
+                const transformedRide = {
+                    name: this.ride.rideName,
+                    picture: this.ride.rideImg,
+                    video: this.ride.rideVideo,
+                    capacity: this.ride.rideCapacity,
+                    duration: this.ride.rideDuration,
+                    buildYear: this.ride.rideBuildyear,
+                    height: this.ride.requiredHeight,
+                    price: this.ride.ridePrice,
+                    speed: this.ride.rideSpeed,
+                    categories: this.ride.categories,
+                    status: this.ride.rideStatus
+                    
+
+                };
+                axios.post('http://localhost:9000/attractions', transformedRide)
+                .then(response => {
+                    console.log(response.data);
+                    this.clearRideForm();
+                    
+                })
+                .catch(error => {
+                    console.log('Error:', error.response.data);
                 })
             },
             
@@ -92,10 +108,10 @@ import axios from 'axios';
                     this.allCategories = response.data;
                     // console.log(JSON.stringify(this.allCategories, null, 2));
                     this.allCategories.forEach(category => {
-                        console.log(this.allCategories);
-                        console.log(category.id);
-                        console.log(category.categoryName);
-                        console.log('---------------------------');
+                        // console.log(this.allCategories);
+                        // console.log(category.id);
+                        // console.log(category.categoryName);
+                        // console.log('---------------------------');
 
                     })
                     this.allCategories = response.data.map(category => ({
@@ -146,26 +162,27 @@ import axios from 'axios';
     <Navigation/>
     <main>
         <h1>Request to add a ride to the park</h1>
-        <form class="addRide"  @submit.prevent="addRide">
+        <form class="addRide"  @submit.prevent="postRide">
             <div class="rideName">
                 <div>
-                    <label for="ride.rideName">Ride Name : </label>
-                    <input type="text" name="rideName" id="">
+                    <label for="rideName">Ride Name : </label>
+                    <input type="text" name="rideName" id="rideName" v-model="ride.rideName">
                 </div>
                 <div>
-                    <label for="ride.rideImg"> ride Image : </label>
-                    <input type="file" id="rideImg" accept="image/png, image/jpeg" @change="handleImageUpload"/>
-                    <img v-if="rideImg" :src="rideImg" alt="Uploaded Image">
+                    <label for="rideImg"> ride Image : </label>
+                    <input type="file" id="rideImg" accept="image/png, image/jpeg" @change="handleImageUpload"  /> 
+                    <img v-if="ride.rideImg" :src="ride.rideImg" alt="Uploaded Image" width="100px" height="100px" style="position: relative; margin-left: 0px; border: 2px solid black; padding: 1px; border-radius: 2px;"  >
                 </div>
             </div>
 
             <div class="categories">
                 <label for="categories">Select category : </label>
                 <div id="categoryBox">
-                    <div v-if="this.allCategories.length < 1 ">
-                    <p class="noCategories">it seems no categories have been added</p></div>
-                    <div v-else  v-for="category in this.allCategories" :key="category.categoryId">
-                        <input  :id="'category_' + category.categoryId" type="checkbox" v-model="categoryInput[category.categoryId]" id="categoryInput" >
+                    <div v-if="allCategories.length < 1 ">
+                    <p class="noCategories">it seems no categories have been added</p>
+                </div>
+                    <div v-else  v-for="category in allCategories" :key="category.categoryId">
+                        <input  :id="'category_' + category.categoryId" type="checkbox" v-model="ride.categories" :value="category.categoryId" id="categoryInput" >
                         <label  :for="'category_' + category.categoryId" id="categoryLabel" :class="styleCategory(category.categoryName)">{{ category.categoryName }}</label>
                     </div>
                     
@@ -187,39 +204,39 @@ import axios from 'axios';
             </div>
                 <div class="rideInfo1" >
                     <div>
-                        <label for="ride.rideCapacity">Capacity : </label>
-                        <input type="number" name="" id="rideCapacity" placeholder=" # people "> 
+                        <label for="rideCapacity">Capacity : </label>
+                        <input type="number" name="" id="rideCapacity" placeholder=" # people " v-model="ride.rideCapacity"> 
                     </div> 
                     <div>
-                        <label for="ride.rideSpeed">Speed : </label>
-                        <input type="number" name="" id="rideSpeed" placeholder=" km/h"> 
+                        <label for="rideSpeed">Speed : </label>
+                        <input type="number" name="" id="rideSpeed" placeholder=" km/h" v-model="ride.rideSpeed"> 
                     </div>
                     <div>
-                        <label for="ride.rideDuration">Duration : </label>
-                        <input type="text" name="" id="rideDuration" placeholder="minutes">
+                        <label for="rideDuration">Duration : </label>
+                        <input type="text" name="" id="rideDuration" placeholder="minutes" v-model="ride.rideDuration">
                     </div>                   
                 </div>
 
                 <div class="rideInfo2">
                     <div>
 
-                        <label for="ride.rideBuildYear">Build Year : </label>
-                        <input type="number" name="" id="rideBuildYear">
+                        <label for="rideBuildYear">Build Year : </label>
+                        <input type="number" name="" id="rideBuildYear" v-model="ride.rideBuildyear">
                     </div>
                     <div >
 
-                        <label for="ride.requiredHeight">Required Height : </label>
-                        <input type="number" name="" id="requiredHeight">
+                        <label for="requiredHeight">Required Height : </label>
+                        <input type="number" name="" id="requiredHeight" v-model="ride.requiredHeight">
                     </div>
                     <div>
-                        <label for="ride.ridePrice">Price : </label>
-                        <input type="number" name="" id="ridePrice">
+                        <label for="ridePrice">Price : </label>
+                        <input type="number" name="" id="ridePrice" v-model="ride.ridePrice">
                     </div>
                 </div>
                 <div class="rideVideo">
 
-                    <label for="ride.rideVideo">Onride video : </label>
-                    <input type="text" name="" id="rideVideo" placeholder="ex. &#34;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#34; ">
+                    <label for="rideVideo">Onride video : </label>
+                    <input type="text" name="" id="rideVideo" placeholder="ex. &#34;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#34; " v-model="ride.rideVideo" >
                 </div>
 
             <button  type="submit">Submit Ride</button>
